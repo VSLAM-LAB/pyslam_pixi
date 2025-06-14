@@ -14,15 +14,15 @@ cd thirdparty/orbslam2_features
 cd ../../
 
 cd thirdparty
-git clone https://github.com/stevenlovegrove/Pangolin.git pangolin
+git clone --recursive https://gitlab.com/luigifreda/pypangolin.git pangolin        
 cd pangolin
-git submodule init && git submodule update
-mkdir build
+git apply ../pangolin.patch
+mkdir build   
 cd build
-cmake ../ -DAVFORMAT_INCLUDE_DIR=""
+cmake .. -DBUILD_PANGOLIN_LIBREALSENSE=OFF -DBUILD_PANGOLIN_LIBREALSENSE2=OFF \
+         -DBUILD_PANGOLIN_OPENNI=OFF -DBUILD_PANGOLIN_OPENNI2=OFF \
+         -DBUILD_PANGOLIN_FFMPEG=OFF -DBUILD_PANGOLIN_LIBOPENEXR=OFF $EXTERNAL_OPTIONS # disable realsense 
 make -j8
-# ln -s pypangolin.*-linux-gnu.so  pangolin.linux-gnu.so
-# ln -s pypangolin-0.9.3.data/purelib/pypangolin.*-linux-gnu.so  pangolin.linux-gnu.so
 cd ..
 
 

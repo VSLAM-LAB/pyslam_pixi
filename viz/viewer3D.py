@@ -27,7 +27,7 @@ import random
 import torch.multiprocessing as mp 
 
 from config_parameters import Parameters
-# import pypangolin as pangolin
+import pypangolin as pangolin
 import glutils 
 import OpenGL.GL as gl
 import numpy as np

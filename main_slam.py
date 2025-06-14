@@ -244,7 +244,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', '--config_path', type=str, default=None, help='Optional path for custom configuration file')
     parser.add_argument('--no_output_date', action='store_true', help='Do not append date to output directory')
-    parser.add_argument('--headless', action='store_true', help='Run in headless mode', default=True)    
+    parser.add_argument('--headless', action='store_true', help='Run in headless mode', default=False)    
     args = parser.parse_args()
     
     if args.config_path:
