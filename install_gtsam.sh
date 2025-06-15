@@ -53,7 +53,8 @@ if [[ ! -f "$TARGET_GTSAM_LIB" ]]; then
     fi 
     echo GTSAM_OPTIONS: $GTSAM_OPTIONS
     cmake .. -DCMAKE_INSTALL_PREFIX="`pwd`/../install" -DCMAKE_BUILD_TYPE=Release $GTSAM_OPTIONS $EXTERNAL_OPTION
-	make -j $(nproc)
+	#make -j $(nproc)
+    make -j4
     make install 
 fi
 

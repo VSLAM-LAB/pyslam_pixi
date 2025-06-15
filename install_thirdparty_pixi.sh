@@ -23,8 +23,7 @@ cmake .. -DBUILD_PANGOLIN_LIBREALSENSE=OFF -DBUILD_PANGOLIN_LIBREALSENSE2=OFF \
          -DBUILD_PANGOLIN_OPENNI=OFF -DBUILD_PANGOLIN_OPENNI2=OFF \
          -DBUILD_PANGOLIN_FFMPEG=OFF -DBUILD_PANGOLIN_LIBOPENEXR=OFF $EXTERNAL_OPTIONS # disable realsense 
 make -j8
-cd ..
-
+cd ../../..
 
 cd thirdparty
 git clone https://github.com/uoip/g2opy.git
@@ -40,8 +39,7 @@ mkdir build
 cd build
 cmake ..
 make -j8
-cd ../..
-
+cd ../../..
 
 cd thirdparty/pydbow3
 git apply ../pydbow3.patch
