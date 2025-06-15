@@ -43,7 +43,6 @@ make -j8
 cd ../..
 
 
-
 cd thirdparty/pydbow3
 git apply ../pydbow3.patch
 # change CMakeLists.txt to use find_package(pybind11 REQUIRED):
@@ -67,8 +66,6 @@ git apply ../pyibow.patch
 # + find_package(pybind11 REQUIRED) 
 ./build.sh
 cd ../..
-
-
 
 cd thirdparty
 git clone https://github.com/borglab/gtsam.git gtsam
