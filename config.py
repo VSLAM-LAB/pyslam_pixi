@@ -81,7 +81,6 @@ class Config:
         self.get_trajectory_saving_settings()
         self.get_and_set_global_parameters()
 
-
     # read core lib paths from config.yaml and set sys paths
     def set_core_lib_paths(self):
         self.core_lib_paths = self.config_libs['CORE_LIB_PATHS']
@@ -153,7 +152,11 @@ class Config:
         if(self.general_settings_filepath is not None):
             with open(self.general_settings_filepath, 'r') as stream:
                 try:
-                    self.system_settings = yaml.load(stream, Loader=yaml.FullLoader)
+                    with open(self.general_settings_filepath, 'r') as file:
+                        lines = file.readlines()
+                    if lines and lines[0].strip() == '%YAML:1.0':
+                        lines = lines[1:]
+                    self.system_settings = yaml.safe_load(''.join(lines))  
                 except yaml.YAMLError as exc:
                     print(exc)
         self.cam_settings = self.system_settings                                                    
@@ -246,14 +249,14 @@ class Config:
     @property
     def width(self):
         if not hasattr(self, '_width'):
-            self._width = self.cam_settings['Camera.width']
+            self._width = self.cam_settings['Camera.w']
         return self._width
 
     # camera height
     @property
     def height(self):
         if not hasattr(self, '_height'):
-            self._height = self.cam_settings['Camera.height']
+            self._height = self.cam_settings['Camera.h']
         return self._height
     
     # camera fps
@@ -288,7 +291,7 @@ class Config:
             if 'FeatureTrackerConfig.nFeatures' in self.system_settings:
                 self._num_features_to_extract = self.system_settings['FeatureTrackerConfig.nFeatures']
             else:
-                self._num_features_to_extract = 0
+                self._num_features_to_extract = 1000
         return self._num_features_to_extract    
     
     @property

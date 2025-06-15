@@ -36,6 +36,7 @@ import ujson as json
 
 from dataset_types import DatasetType, SensorType, DatasetEnvironmentType, MinimalDatasetConfig
 from dataset import Dataset, FolderDataset, FolderDatasetParallel, KittiDataset, ScannetDataset, TumDataset, EurocDataset, ReplicaDataset, TartanairDataset, VideoDataset, LiveDataset
+from dataset import VSLAMLABDataset
 
 
 from typing import TYPE_CHECKING
@@ -113,7 +114,13 @@ def dataset_factory(config:'Config'):
         fps = 10 # a default value 
         if 'fps' in dataset_settings:
             fps = int(dataset_settings['fps'])
-        dataset = FolderDataset(path, name, sensor_type, fps, associations, timestamps, start_frame_id, DatasetType.FOLDER)      
+        dataset = FolderDataset(path, name, sensor_type, fps, associations, timestamps, start_frame_id, DatasetType.FOLDER)   
+    if type == 'vslamlab':
+        fps = 10 # a default value 
+        if 'fps' in dataset_settings:
+            fps = int(dataset_settings['fps'])
+        dataset = VSLAMLABDataset(path, name, sensor_type, fps, associations, timestamps, start_frame_id, DatasetType.VSLAMLAB, 
+                                  dataset_settings['rgb_txt']  )      
     if type == 'live':
         dataset = LiveDataset(path, name, sensor_type, associations, start_frame_id, DatasetType.LIVE)   
     if type == 'ros1bag':
@@ -134,7 +141,8 @@ def dataset_factory(config:'Config'):
         dataset = Ros2bagDataset(path, name, sensor_type, associations, start_frame_id, DatasetType.ROS1BAG, environment_type, fps, config)           
     if type == 'scannet':
         dataset = ScannetDataset(path, name, sensor_type, associations, start_frame_id, DatasetType.SCANNET, config)
-               
+
+    
     dataset.minimal_config = MinimalDatasetConfig(config=config)
 
     return dataset 

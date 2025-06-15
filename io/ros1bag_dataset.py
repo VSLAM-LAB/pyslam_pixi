@@ -203,8 +203,8 @@ class Ros1bagDataset(Dataset):
             Printer.yellow('[Ros1bagDataset] automatically rectifying the stereo images')
             if self.cam_stereo_settings is None: 
                 sys.exit('ERROR: we are missing stereo settings in Euroc YAML settings!')   
-            width = config.cam_settings['Camera.width'] 
-            height = config.cam_settings['Camera.height']         
+            width = config.cam_settings['Camera.w'] 
+            height = config.cam_settings['Camera.h']         
             
             K_l = self.cam_stereo_settings['left']['K']
             D_l = self.cam_stereo_settings['left']['D']

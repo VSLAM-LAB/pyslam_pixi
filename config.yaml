@@ -6,13 +6,13 @@ DATASET:
   #type: ICL_NUIM_DATASET
   #type: REPLICA_DATASET
   #type: TARTANAIR_DATASET
-  type: VIDEO_DATASET
+  #type: VIDEO_DATASET
   #type: SCANNET_DATASET
   #type: ROS1BAG_DATASET
   #type: ROS2BAG_DATASET  
   #type: FOLDER_DATASET
   #type: LIVE_DATASET  # Not recommended for current development stage
-
+  type: VSLAMLAB_DATASET
 
 KITTI_DATASET:
   type: kitti
@@ -147,6 +147,16 @@ FOLDER_DATASET:
   fps: 20
   #timestamps: times.txt # can be used here and to be intended as the frame timestamps 
 
+VSLAMLAB_DATASET:
+  type: vslamlab 
+  sensor_type: mono   # Here, 'sensor_type' can be only 'mono' 
+  base_path: /home/luigi/Work/rgbd_datasets2/kitti/dataset/sequences/00/image_0/
+  # 'name' is used for specifying a glob pattern, e.g. *png, *jpeg, etc...
+  name: '*png'  
+  settings: settings/KITTI00-02.yaml
+  groundtruth_file: groundtruth.txt
+  fps: 20
+  #timestamps: times.txt # can be used here and to be intended as the frame timestamps 
 
 ROS1BAG_DATASET:
   type: ros1bag 

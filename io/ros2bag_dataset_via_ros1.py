@@ -228,8 +228,8 @@ class Ros2bagDataset(Dataset):
             if not self.cam_stereo_settings:
                 sys.exit("Missing stereo camera settings!")
 
-            width = config.cam_settings['Camera.width']
-            height = config.cam_settings['Camera.height']
+            width = config.cam_settings['Camera.w']
+            height = config.cam_settings['Camera.h']
 
             K_l = self.cam_stereo_settings['left']['K']
             D_l = self.cam_stereo_settings['left']['D']

@@ -90,6 +90,16 @@ FOLDER_DATASET:
   fps: %dataset_fps%
   #timestamps: times.txt # can be used here and to be intended as the frame timestamps 
 
+VSLAMLAB_DATASET:
+  type: vslamlab 
+  sensor_type: %sensor_type%   # Here, 'sensor_type' can be only 'mono' 
+  base_path: %dataset_base_path%
+  # 'name' is used for specifying a glob pattern, e.g. *png, *jpeg, etc...
+  name: %dataset_images_glob_pattern%  
+  settings: %settings_path% # do not forget to correctly set the corresponding camera settings file 
+  groundtruth_file: groundtruth.txt
+  fps: %dataset_fps%
+  #timestamps: times.txt # can be used here and to be intended as the frame timestamps 
 
 ROS1BAG_DATASET:
   type: ros1bag 

@@ -44,8 +44,7 @@ cd ../..
 
 
 
-# cd thirdparty/pydbow3
-cd pydbow3
+cd thirdparty/pydbow3
 git apply ../pydbow3.patch
 # change CMakeLists.txt to use find_package(pybind11 REQUIRED):
 # - add_subdirectory(modules/pybind11)

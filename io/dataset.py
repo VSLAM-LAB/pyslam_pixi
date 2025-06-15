@@ -291,7 +291,41 @@ class FolderDataset(Dataset):
                 raise FileNotFoundError(f"Timestamps file does not exist: {timestamps_path}")            
             self.timestamps = self._read_timestamps(timestamps_path)
             Printer.green('read timestamps from ' + timestamps_path)            
-        
+
+class VSLAMLABDataset(Dataset): 
+    def __init__(self, sequence_path, name, sensor_type=SensorType.MONOCULAR, fps=None, associations=None, timestamps=None, 
+                 start_frame_id=0, type=DatasetType.VIDEO, rgb_txt = None): 
+        super().__init__(sequence_path, name, sensor_type, fps, associations, start_frame_id, type)
+        if sensor_type != SensorType.MONOCULAR:
+            raise ValueError('VSLAMLAB dataset only supports MONOCULAR sensor type')        
+        if fps is None: 
+            fps = 10 # default value  
+        self.fps = fps 
+        print('fps: ', self.fps)  
+        self.Ts = 1./self.fps 
+        self.skip=1
+        self.listing = []    
+        self.maxlen = 1000000    
+        print('Processing Image Directory Input')
+
+        # Load rgb images
+        self.listing = []
+        timestamps = []
+        timestamps.clear()
+        with open(rgb_txt, 'r') as file:
+            for line in file:
+                timestamp, path, *extra = line.strip().split(' ')
+                self.listing.append(os.path.join(sequence_path, path))
+                timestamps.append(timestamp)
+
+        self.listing.sort()
+        self.listing = self.listing[::self.skip]
+        self.maxlen = len(self.listing)
+        self.num_frames = self.maxlen
+        self.i = 0        
+        if self.maxlen == 0:
+          raise IOError('No images were found in folder: ', sequence_path)   
+       
     def getImage(self, frame_id):
         if self.i == self.maxlen:
             return None
@@ -581,7 +615,7 @@ class ScannetDataset(Dataset):
         self.image_size = (640, 480)
         if config is not None:
             # NOTE: If you modify the image size, remember to change the intrinsics in the settings file (see settings/SCANNET.yaml)
-            self.image_size = (config.cam_settings['Camera.width'] , config.cam_settings['Camera.height'])
+            self.image_size = (config.cam_settings['Camera.w'] , config.cam_settings['Camera.h'])
         if sensor_type == SensorType.MONOCULAR:
             self.scale_viewer_3d = 0.05             
         print('Processing ScanNet Sequence')        
@@ -729,8 +763,8 @@ class EurocDataset(Dataset):
             Printer.yellow('[EurocDataset] automatically rectifying the stereo images')
             if self.cam_stereo_settings is None: 
                 sys.exit('ERROR: we are missing stereo settings in Euroc YAML settings!')   
-            width = config.cam_settings['Camera.width'] 
-            height = config.cam_settings['Camera.height']         
+            width = config.cam_settings['Camera.w'] 
+            height = config.cam_settings['Camera.h']         
             
             K_l = self.cam_stereo_settings['left']['K']
             D_l = self.cam_stereo_settings['left']['D']
